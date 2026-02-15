@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniKart 2D - Admin</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <main class="admin-layout">
+    <h1>Consola Administración</h1>
+    <button id="logoutBtn">Cerrar sesión admin</button>
+    <div class="tabs">
+      <button data-tab="players">Jugadores</button>
+      <button data-tab="chat">Chat</button>
+      <button data-tab="reports">Reportes</button>
+      <button data-tab="control">Control Juego</button>
+    </div>
+
+    <section id="players" class="tab active"><pre id="playersData"></pre></section>
+    <section id="chat" class="tab"><pre id="chatData"></pre></section>
+    <section id="reports" class="tab"><pre id="reportData"></pre></section>
+    <section id="control" class="tab">
+      <button id="panicBtn">Botón de Pánico</button>
+      <button data-action="pause">Pause</button>
+      <button data-action="resume">Resume</button>
+      <button data-action="restart">Reiniciar carrera</button>
+      <button id="trackBtn">Cambiar pista</button>
+      <button id="powerBtn">Ajustar power-ups</button>
+    </section>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('.tabs button');
+    tabs.forEach(btn => btn.onclick = () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+
+    async function request(path, method = 'GET', body) {
+      const res = await fetch(path, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined
+      });
+
+      if (res.status === 401 || res.status === 403) {
+        location.href = '/admin-access.html';
+        return null;
+      }
+
+      return res.json();
+    }
+
+    async function refreshAll() {
+      const players = await request('/api/admin/players');
+      const chat = await request('/api/admin/chat-history');
+      const reports = await request('/api/admin/reports');
+      if (!players || !chat || !reports) return;
+      playersData.textContent = JSON.stringify(players, null, 2);
+      chatData.textContent = JSON.stringify(chat, null, 2);
+      reportData.textContent = JSON.stringify(reports, null, 2);
+    }
+
+    panicBtn.onclick = async () => { await request('/api/admin/panic', 'POST'); refreshAll(); };
+    document.querySelectorAll('#control button[data-action]').forEach((btn) => {
+      btn.onclick = async () => { await request('/api/admin/game-control', 'POST', { action: btn.dataset.action }); refreshAll(); };
+    });
+    trackBtn.onclick = async () => {
+      const value = prompt('Nueva pista', 'Circuito Noche');
+      await request('/api/admin/game-control', 'POST', { action: 'track', value });
+      refreshAll();
+    };
+    powerBtn.onclick = async () => {
+      const value = prompt('Nuevo rate power-up', '1.5');
+      await request('/api/admin/game-control', 'POST', { action: 'powerUps', value });
+      refreshAll();
+    };
+
+    logoutBtn.onclick = async () => {
+      await fetch('/api/admin/session', { method: 'DELETE' });
+      location.href = '/admin-access.html';
+    };
+
+    refreshAll();
+    setInterval(refreshAll, 2500);
+  </script>
+</body>
+</html>

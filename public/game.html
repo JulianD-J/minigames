@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniKart 2D - Juego</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/game.css" />
+</head>
+<body>
+  <section class="layout">
+    <canvas id="gameCanvas" width="820" height="520"></canvas>
+    <aside id="hud">
+      <h2>HUD</h2>
+      <p>Velocidad: <span id="speed">0</span></p>
+      <p>Vuelta: <span id="lap">1</span>/3</p>
+      <p>Mini-mapa</p>
+      <canvas id="minimap" width="150" height="100"></canvas>
+      <div class="chat-box">
+        <div id="chatLog"></div>
+        <input id="chatInput" placeholder="Solo emojis: 😀🔥🚗🏁✨" />
+      </div>
+      <button id="reportBtn">Reportar</button>
+    </aside>
+  </section>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="/js/game.js"></script>
+</body>
+</html>

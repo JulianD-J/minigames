@@ -1,0 +1,6 @@
+/* Estilos para consola admin por pestañas. */
+.admin-layout { padding: 12px; }
+.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.tab { display: none; background: #1b2130; padding: 10px; border-radius: 8px; }
+.tab.active { display: block; }
+pre { white-space: pre-wrap; max-height: 450px; overflow: auto; }
