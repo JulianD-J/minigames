@@ -1,0 +1,8 @@
+/* Estilos base compartidos por login, juego y admin. */
+:root { color-scheme: dark; }
+body { font-family: system-ui, sans-serif; margin: 0; background: #10131a; color: #f5f7ff; }
+.card { max-width: 420px; margin: 7vh auto; padding: 1.2rem; background: #1b2130; border-radius: 12px; }
+label { display: block; margin: .7rem 0; }
+input, button { width: 100%; padding: .6rem; border-radius: 8px; border: 1px solid #425; margin-top: .2rem; }
+button { cursor: pointer; background: #3f6bd8; color: white; }
+.error { color: #ff6b6b; min-height: 1.2rem; }

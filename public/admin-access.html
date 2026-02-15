@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso Admin - MiniKart 2D</title>
+  <link rel="stylesheet" href="/css/base.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Acceso Admin</h1>
+    <p>Solo administradores deben ingresar aquí.</p>
+    <form id="adminLoginForm">
+      <label>Token admin <input id="adminToken" required /></label>
+      <button type="submit">Entrar a consola</button>
+    </form>
+    <p id="error" class="error"></p>
+  </main>
+
+  <script>
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = document.getElementById('adminToken').value;
+      const res = await fetch('/api/admin/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        document.getElementById('error').textContent = data.error || 'No autorizado';
+        return;
+      }
+      location.href = '/admin.html';
+    });
+  </script>
+</body>
+</html>
