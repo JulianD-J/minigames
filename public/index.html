@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniKart 2D - Login</title>
+  <link rel="stylesheet" href="/css/base.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>MiniKart 2D</h1>
+    <p>Ingresa con tu código U00 aprobado y tu alias.</p>
+    <form id="loginForm">
+      <label>Código U00 <input id="u00" required placeholder="U00123" /></label>
+      <label>Alias <input id="alias" required maxlength="16" /></label>
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="error" class="error"></p>
+    <a href="/admin-access.html">Ir a consola admin</a>
+  </main>
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u00 = document.getElementById('u00').value;
+      const alias = document.getElementById('alias').value;
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ u00, alias })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        document.getElementById('error').textContent = data.error || 'Error de login';
+        return;
+      }
+      localStorage.setItem('playerToken', data.token);
+      localStorage.setItem('playerAlias', data.profile.alias);
+      location.href = '/game.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+/* Estilos para layout de juego + HUD y chat. */
+.layout { display: grid; grid-template-columns: 1fr 300px; gap: 12px; padding: 10px; }
+#gameCanvas { background: #1a3f1a; border: 3px solid #2c2c2c; border-radius: 8px; }
+#hud { background: #1b2130; border-radius: 8px; padding: 10px; }
+.chat-box { margin-top: 12px; }
+#chatLog { height: 170px; overflow-y: auto; background: #0f1521; border-radius: 8px; padding: 8px; }

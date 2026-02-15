@@ -1,0 +1,27 @@
+{
+  "name": "minigames-mariokart2d",
+  "version": "1.0.0",
+  "description": "Juego multijugador online estilo Mario Kart 2D con consola admin",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "jest --runInBand",
+    "share": "bash scripts/run-with-ngrok.sh"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/tests"
+    ]
+  }
+}
