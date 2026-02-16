@@ -9,14 +9,13 @@
 <body>
   <main class="card">
     <h1>MiniKart 2D</h1>
-    <p>Ingresa con tu código U00 aprobado y tu alias.</p>
+    <p>Ingresa con tu código U00 y alias. Si eres admin, usa tu credencial especial.</p>
     <form id="loginForm">
       <label>Código U00 <input id="u00" required placeholder="U00123456" /></label>
       <label>Alias <input id="alias" required maxlength="16" /></label>
       <button type="submit">Entrar</button>
     </form>
     <p id="error" class="error"></p>
-    <a href="/admin-access.html">Ir a consola admin</a>
   </main>
   <script>
     const form = document.getElementById('loginForm');
@@ -36,6 +35,10 @@
       }
       localStorage.setItem('playerToken', data.token);
       localStorage.setItem('playerAlias', data.profile.alias);
+      if (data.profile.isAdmin) {
+        location.href = '/admin.html';
+        return;
+      }
       location.href = '/game.html';
     });
   </script>

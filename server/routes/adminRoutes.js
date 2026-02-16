@@ -1,7 +1,7 @@
 // Endpoints protegidos para consola admin.
 const express = require('express');
 const { requireAdmin } = require('../middleware/authMiddleware');
-const { createAdminSession, destroyAdminSession } = require('../controllers/adminAuthController');
+const { destroyAdminSession } = require('../controllers/adminAuthController');
 const {
   listPlayers,
   revokeCode,
@@ -15,9 +15,8 @@ const {
 
 const router = express.Router();
 
-// Login/logout de sesión admin (cookie HttpOnly).
-router.post('/session', createAdminSession);
-router.delete('/session', destroyAdminSession);
+// Logout de sesión admin.
+router.delete('/logout', destroyAdminSession);
 
 router.use(requireAdmin);
 router.get('/players', listPlayers);

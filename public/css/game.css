@@ -1,6 +1,35 @@
 /* Estilos para layout de juego + HUD y chat. */
-.layout { display: grid; grid-template-columns: 1fr 300px; gap: 12px; padding: 10px; }
-#gameCanvas { background: #1a3f1a; border: 3px solid #2c2c2c; border-radius: 8px; }
-#hud { background: #1b2130; border-radius: 8px; padding: 10px; }
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 14px;
+  padding: 14px;
+}
+#gameCanvas {
+  background: #11251a;
+  border: 3px solid #2a374d;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 2px #1a2c3f, 0 14px 28px rgba(0,0,0,.35);
+}
+#hud {
+  background: linear-gradient(180deg, #1f2840, #141a2b);
+  border-radius: 12px;
+  border: 1px solid #344167;
+  padding: 12px;
+}
+#hud h2 { margin-top: 0; }
 .chat-box { margin-top: 12px; }
-#chatLog { height: 170px; overflow-y: auto; background: #0f1521; border-radius: 8px; padding: 8px; }
+#chatLog {
+  height: 200px;
+  overflow-y: auto;
+  background: #0f1521;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #283248;
+}
+#chatLog p { margin: .2rem 0; }
+#minimap {
+  border: 1px solid #3b4a66;
+  border-radius: 6px;
+  background: #0b111d;
+}

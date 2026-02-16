@@ -2,26 +2,27 @@
 const { getSession, isRevoked } = require('../models/userModel');
 const { parseCookies } = require('../utils/cookie');
 
-function readAdminToken(req) {
-  const headerToken = req.headers['x-admin-token'];
-  if (headerToken) return headerToken;
+function readAdminSession(req) {
   const cookies = parseCookies(req.headers.cookie || '');
-  return cookies.admin_session;
+  const token = cookies.admin_player_token;
+  return token ? getSession(token) : null;
 }
 
 function requireAdmin(req, res, next) {
-  const token = readAdminToken(req);
-  if (!token || token !== process.env.ADMIN_TOKEN) {
-    return res.status(401).json({ error: 'Token admin inválido' });
+  const adminSession = readAdminSession(req);
+  if (!adminSession || !adminSession.isAdmin || isRevoked(adminSession.u00)) {
+    return res.status(401).json({ error: 'Acceso admin inválido' });
   }
+  req.admin = adminSession;
   return next();
 }
 
 function requireAdminPage(req, res, next) {
-  const token = readAdminToken(req);
-  if (token !== process.env.ADMIN_TOKEN) {
+  const adminSession = readAdminSession(req);
+  if (!adminSession || !adminSession.isAdmin || isRevoked(adminSession.u00)) {
     return res.status(403).send('Acceso admin denegado');
   }
+  req.admin = adminSession;
   return next();
 }
 

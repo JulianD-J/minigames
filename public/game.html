@@ -9,13 +9,15 @@
 </head>
 <body>
   <section class="layout">
-    <canvas id="gameCanvas" width="820" height="520"></canvas>
+    <canvas id="gameCanvas" width="980" height="560"></canvas>
     <aside id="hud">
-      <h2>HUD</h2>
-      <p>Velocidad: <span id="speed">0</span></p>
+      <h2>HUD Carrera</h2>
+      <p>Velocidad: <span id="speed">0</span> km/h</p>
       <p>Vuelta: <span id="lap">1</span>/3</p>
+      <p>Tiempo: <span id="timer">00:00</span></p>
+      <p>Boost: <span id="boost">No</span></p>
       <p>Mini-mapa</p>
-      <canvas id="minimap" width="150" height="100"></canvas>
+      <canvas id="minimap" width="180" height="110"></canvas>
       <div class="chat-box">
         <div id="chatLog"></div>
         <input id="chatInput" placeholder="Solo emojis: 😀🔥🚗🏁✨" />

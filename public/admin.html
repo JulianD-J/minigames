@@ -46,7 +46,7 @@
       });
 
       if (res.status === 401 || res.status === 403) {
-        location.href = '/admin-access.html';
+        location.href = '/';
         return null;
       }
 
@@ -79,8 +79,8 @@
     };
 
     logoutBtn.onclick = async () => {
-      await fetch('/api/admin/session', { method: 'DELETE' });
-      location.href = '/admin-access.html';
+      await fetch('/api/admin/logout', { method: 'DELETE' });
+      location.href = '/';
     };
 
     refreshAll();

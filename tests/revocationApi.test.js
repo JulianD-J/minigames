@@ -9,7 +9,6 @@ describe('revocation flow', () => {
   beforeEach(() => {
     _internal.revoked.clear();
     _internal.sessions.clear();
-    process.env.ADMIN_TOKEN = 'test-admin';
   });
 
   test('revocar U00 bloquea login posterior', async () => {
@@ -18,9 +17,14 @@ describe('revocation flow', () => {
       .send({ u00: 'U00123456', alias: 'Mario' });
     expect(okLogin.status).toBe(200);
 
+    const adminLogin = await request(app)
+      .post('/api/login')
+      .send({ u00: 'U00130246', alias: 'JulianD' });
+    const adminCookie = adminLogin.headers['set-cookie'];
+
     const revoke = await request(app)
       .post('/api/admin/revoke')
-      .set('x-admin-token', 'test-admin')
+      .set('Cookie', adminCookie)
       .send({ u00: 'U00123456' });
     expect(revoke.status).toBe(200);
 

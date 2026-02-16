@@ -4,7 +4,7 @@ const { pushMessage } = require('./models/chatModel');
 const { sanitizeChat } = require('./utils/chatFilter');
 
 function wireAdminConsole(io, socket) {
-  if (!socket.handshake.auth?.adminToken || socket.handshake.auth.adminToken !== process.env.ADMIN_TOKEN) {
+  if (!socket.player?.isAdmin) {
     return;
   }
 

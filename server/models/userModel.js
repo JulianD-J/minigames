@@ -5,11 +5,6 @@ const revoked = new Set();
 const bannedUntil = new Map();
 const sessions = new Map();
 
-function isWhitelisted() {
-  // Ya no se usa whitelist: cualquier U00 válido por formato puede entrar.
-  return true;
-}
-
 function isRevoked(u00) {
   return revoked.has(u00);
 }
@@ -38,7 +33,7 @@ function isBanned(u00) {
   return true;
 }
 
-function createSession({ u00, alias, ip, userAgent }) {
+function createSession({ u00, alias, ip, userAgent, isAdmin = false }) {
   const token = crypto.randomUUID();
   const session = {
     token,
@@ -48,7 +43,8 @@ function createSession({ u00, alias, ip, userAgent }) {
     userAgent,
     createdAt: new Date().toISOString(),
     lastSeen: Date.now(),
-    isFrozen: false
+    isFrozen: false,
+    isAdmin: Boolean(isAdmin)
   };
   sessions.set(token, session);
   return session;
@@ -76,7 +72,6 @@ function setFrozen(token, isFrozen) {
 }
 
 module.exports = {
-  isWhitelisted,
   isRevoked,
   revokeU00,
   unrevokeU00,
